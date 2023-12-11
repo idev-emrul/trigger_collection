@@ -1,7 +1,7 @@
 DELIMITER //
 
 CREATE TRIGGER update_attendance_summary_on_delete
-AFTER UPDATE ON attendance_student_period_info 
+AFTER DELETE ON attendance_student_period_info 
 FOR EACH ROW
 BEGIN
     DECLARE t_student_current_id INT;
