@@ -43,17 +43,17 @@ BEGIN
         AND MONTH(`student_check_in`) = MONTH(NEW.`student_check_in`);
 
     UPDATE trigger_attendance_student_summary
-    SET
-        total_present = total_present,
-        total_absent = total_absent,
-        total_leave = total_leave,
-        total_holiday = total_holiday,
-        total_fugitive = total_fugitive
-    WHERE
-        student_current_id = t_student_current_id
-        AND subject_period_id = t_subject_period_id
-        AND `year` = t_year
-        AND `month` = t_month;
+        SET
+            total_present = total_present,
+            total_absent = total_absent,
+            total_leave = total_leave,
+            total_holiday = total_holiday,
+            total_fugitive = total_fugitive
+        WHERE
+            student_current_id = t_student_current_id
+            AND subject_period_id = t_subject_period_id
+            AND `year` = t_year
+            AND `month` = t_month;
 END;
 //
 
