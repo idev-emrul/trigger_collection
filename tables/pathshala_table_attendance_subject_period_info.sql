@@ -5,8 +5,8 @@
 -- Table structure for table `attendance_subject_period_info`
 --
 
-CREATE TABLE `attendance_subject_period_info` (
-  `subject_period_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `attendance_subject_period_info` (
+  `subject_period_id` int(11) NOT NULL AUTO_INCREMENT,
   `period_code` int(5) NOT NULL,
   `subject_group_code` int(5) NOT NULL,
   `attendance_datetime` datetime DEFAULT NULL,
@@ -14,8 +14,9 @@ CREATE TABLE `attendance_subject_period_info` (
   `updated_at` datetime DEFAULT NULL,
   `update_count` int(3) DEFAULT NULL,
   `created_by` int(5) DEFAULT NULL,
-  `updated_by` int(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `updated_by` int(5) DEFAULT NULL,
+  PRIMARY KEY (`subject_period_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `attendance_subject_period_info`

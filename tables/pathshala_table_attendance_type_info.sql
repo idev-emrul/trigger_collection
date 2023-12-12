@@ -5,8 +5,8 @@
 -- Table structure for table `attendance_type_info`
 --
 
-CREATE TABLE `attendance_type_info` (
-  `attendance_type_code` int(3) NOT NULL,
+CREATE TABLE IF NOT EXISTS `attendance_type_info` (
+  `attendance_type_code` int(3) NOT NULL AUTO_INCREMENT,
   `attendance_type_name` varchar(50) NOT NULL,
   `attendance_type_name_short` varchar(10) NOT NULL,
   `attendance_type_name_bn` varchar(100) NOT NULL,
@@ -15,8 +15,9 @@ CREATE TABLE `attendance_type_info` (
   `update_count` int(3) DEFAULT NULL,
   `created_by` int(5) DEFAULT NULL,
   `updated_by` int(5) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL COMMENT '1 = active, 2 = inactive'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `status` tinyint(1) NOT NULL COMMENT '1 = active, 2 = inactive',
+  PRIMARY KEY (`attendance_type_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `attendance_type_info`

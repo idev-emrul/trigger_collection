@@ -5,8 +5,8 @@
 -- Table structure for table `trigger_attendance_student_period_summary`
 --
 
-CREATE TABLE `trigger_attendance_student_period_summary` (
-  `attendance_student_summary_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `trigger_attendance_student_period_summary` (
+  `attendance_student_summary_id` int(11) NOT NULL AUTO_INCREMENT,
   `student_current_id` int(11) NOT NULL,
   `period_code` int(11) NOT NULL,
   `session_code` int(3) NOT NULL,
@@ -20,8 +20,9 @@ CREATE TABLE `trigger_attendance_student_period_summary` (
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`attendance_student_summary_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `trigger_attendance_student_period_summary`
