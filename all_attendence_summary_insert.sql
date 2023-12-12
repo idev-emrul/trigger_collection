@@ -1,20 +1,21 @@
 DELIMITER //
 
-CREATE TRIGGER all_attendence_summary_update
-AFTER UPDATE ON attendance_student_period_info 
+CREATE TRIGGER all_attendence_summary_insert
+AFTER INSERT ON attendance_student_period_info 
 FOR EACH ROW
 BEGIN
-    DECLARE s_t_student_current_id INT;
-    DECLARE s_t_subject_period_id INT;
-    DECLARE s_t_subject_group_code INT;
-    DECLARE s_t_year INT;
-    DECLARE s_t_month INT;
-    DECLARE s_total_present INT;
-    DECLARE s_total_absent INT;
-    DECLARE s_total_leave INT;
-    DECLARE s_total_holiday INT;
-    DECLARE s_total_fugitive INT;
+    DECLARE t_student_current_id INT;
+    DECLARE t_subject_period_id INT;
+    DECLARE t_subject_group_code INT;
+    DECLARE t_year INT;
+    DECLARE t_month INT;
+    DECLARE total_present INT;
+    DECLARE total_absent INT;
+    DECLARE total_leave INT;
+    DECLARE total_holiday INT;
+    DECLARE total_fugitive INT;
 
+-- ==== VARIABLE FOR PERIOD TABLE ==========
     DECLARE p_t_student_current_id INT;
     DECLARE p_t_subject_period_id INT;
     DECLARE p_t_period_code INT;
@@ -26,28 +27,29 @@ BEGIN
     DECLARE p_total_holiday INT;
     DECLARE p_total_fugitive INT;
 
+-- ========= SUBJECT WISE SUMMARY ON INSERT ========
     SELECT
         NEW.student_current_id,
         NEW.subject_period_id,
         asupi.subject_group_code,
         YEAR(NEW.student_check_in),
         MONTH(NEW.student_check_in),
-        SUM(CASE WHEN attendance_type = 1 THEN 1 ELSE 0 END) AS s_total_present,
-        SUM(CASE WHEN attendance_type = 2 THEN 1 ELSE 0 END) AS s_total_absent,
-        SUM(CASE WHEN attendance_type = 3 THEN 1 ELSE 0 END) AS s_total_leave,
-        SUM(CASE WHEN attendance_type = 4 THEN 1 ELSE 0 END) AS s_total_holiday,
-        SUM(CASE WHEN attendance_type = 5 THEN 1 ELSE 0 END) AS s_total_fugitive
+        SUM(CASE WHEN attendance_type = 1 THEN 1 ELSE 0 END) AS total_present,
+        SUM(CASE WHEN attendance_type = 2 THEN 1 ELSE 0 END) AS total_absent,
+        SUM(CASE WHEN attendance_type = 3 THEN 1 ELSE 0 END) AS total_leave,
+        SUM(CASE WHEN attendance_type = 4 THEN 1 ELSE 0 END) AS total_holiday,
+        SUM(CASE WHEN attendance_type = 5 THEN 1 ELSE 0 END) AS total_fugitive
     INTO
-        s_t_student_current_id,
-        s_t_subject_period_id,
-        s_t_subject_group_code,
-        s_t_year,
-        s_t_month,
-        s_total_present,
-        s_total_absent,
-        s_total_leave,
-        s_total_holiday,
-        s_total_fugitive
+        t_student_current_id,
+        t_subject_period_id,
+        t_subject_group_code,
+        t_year,
+        t_month,
+        total_present,
+        total_absent,
+        total_leave,
+        total_holiday,
+        total_fugitive
     FROM    
         attendance_student_period_info aspi,
         attendance_subject_period_info asupi
@@ -66,21 +68,20 @@ BEGIN
 
     UPDATE trigger_attendance_student_subject_summary
     SET
-        total_present = s_total_present,
-        total_absent = s_total_absent,
-        total_leave = s_total_leave,
-        total_holiday = s_total_holiday,
-        total_fugitive = s_total_fugitive
+        total_present = total_present,
+        total_absent = total_absent,
+        total_leave = total_leave,
+        total_holiday = total_holiday,
+        total_fugitive = total_fugitive
     WHERE
-        student_current_id = s_t_student_current_id
-        AND subject_group_code = s_t_subject_group_code
-        AND `year` = s_t_year
-        AND `month` = s_t_month;
+        student_current_id = t_student_current_id
+        AND subject_group_code = t_subject_group_code
+        AND `year` = t_year
+        AND `month` = t_month;
 
 
--- ===== UPDATE PRIOD WISE ATTENDENCE =============
-    
 
+-- ========= PERIOD WISE SUMMARY ON INSERT ============
     SELECT
         NEW.student_current_id,
         NEW.subject_period_id,
@@ -129,10 +130,7 @@ BEGIN
         AND period_code = p_t_period_code
         AND `year` = p_t_year
         AND `month` = p_t_month;
+
 END;
 //
 DELIMITER ;
-
-
-
-
