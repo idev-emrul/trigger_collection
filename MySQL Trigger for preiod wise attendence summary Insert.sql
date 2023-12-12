@@ -1,6 +1,6 @@
 DELIMITER //
 
-CREATE TRIGGER update_attendance_summary_on_insert
+CREATE TRIGGER priod_wise_attendence_summary_on_insert
 AFTER INSERT ON attendance_student_period_info 
 FOR EACH ROW
 BEGIN
